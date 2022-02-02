@@ -5,20 +5,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.tibron.cccrediteservice.domain.CreditInformationDTO;
+import org.tibron.cccrediteservice.service.CreditService;
 
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CreditRestConctroller.class)
 class CreditRestConctrollerTest {
@@ -26,19 +29,41 @@ class CreditRestConctrollerTest {
 
     //mock service also when we have one =)
 
+    @MockBean
+    CreditService ccService;
+
+
     @Autowired
     private MockMvc mockMvc;
+
     public static final String api = CreditRestConctroller.API;
 
     @Autowired
     ObjectMapper objectMapper; //needed for transformation to json
 
 
+
     @Test
-    void testGetCreditInformation() throws Exception {
+    void testGetCreditInformationById() throws Exception {
+        CreditInformationDTO dummyDto = CreditInformationDTO.builder().credit_uuid(UUID.randomUUID()).credit_institution("Free money for all GmbH").credit_yearly_rate(BigDecimal.valueOf(0.00001)).build();
+        given(ccService.getById(any())).willReturn(dummyDto);
+
         mockMvc.perform(
-                get(api+ UUID.randomUUID())
-                        .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+                get(api+ "/id/2")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+
+    @Test
+    void testGetCreditInformationByUuid() throws Exception {
+        CreditInformationDTO dummyDto = CreditInformationDTO.builder().credit_uuid(UUID.randomUUID()).credit_institution("Free money for all GmbH").credit_yearly_rate(BigDecimal.valueOf(0.00001)).build();
+        given(ccService.getByUUID(any())).willReturn(dummyDto);
+
+        mockMvc.perform(
+                        get(api+ "/uuid/a577d8d4-136b-4971-accc-cdf0bc5784d7")
+                                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test

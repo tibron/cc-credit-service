@@ -7,5 +7,6 @@ import org.tibron.cccrediteservice.domain.CreditInfromation;
 import java.util.UUID;
 
 @Repository
-public interface CreditInfoRepostory extends JpaRepository<CreditInfromation,UUID> {
+public interface CreditInfoRepostory extends JpaRepository<CreditInfromation,Integer> {
+    public CreditInfromation findByCreditInstitutionUuid(UUID uuid);
 }
