@@ -1,4 +1,4 @@
-package com.example.cccrediteservice;
+package org.tibron.cccrediteservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
