@@ -12,12 +12,13 @@ import java.util.UUID;
 @RequestMapping("/v1/api/credit/")
 
 public class CreditRestConctroller {
-    public static final String API = "/v1/api/credit";
+    public static final String API = "/v1/api/credit/";
 
     @GetMapping({"","/"})
     public ResponseEntity deafultMapping(){
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
+
     @GetMapping({"{uuid}"})
     public ResponseEntity<CreditInformationDTO> getCreditIformation(){
         CreditInformationDTO stubValue = CreditInformationDTO.builder().credit_uuid(UUID.randomUUID()).credit_institution("Solid as Rock Bank").credit_yearly_rate(BigDecimal.valueOf(0.0199)).build();
