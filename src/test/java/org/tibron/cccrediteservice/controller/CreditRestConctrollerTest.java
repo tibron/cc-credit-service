@@ -36,8 +36,6 @@ class CreditRestConctrollerTest {
 
     @Test
     void testGetCreditInformation() throws Exception {
-        URI location = URI.create(api).resolve("randomstr");
-
         mockMvc.perform(
                 get(api+ UUID.randomUUID())
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
