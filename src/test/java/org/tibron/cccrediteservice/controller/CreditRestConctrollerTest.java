@@ -61,7 +61,7 @@ class CreditRestConctrollerTest {
         given(ccService.getByUUID(any())).willReturn(dummyDto);
 
         mockMvc.perform(
-                        get(api+ "/uuid/a577d8d4-136b-4971-accc-cdf0bc5784d7")
+                        get(api+ "/uuid/"+UUID.randomUUID())
                                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
